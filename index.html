@@ -5,5 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom dropdown</title>
   </head>
-  <body></body>
+  <body>
+    <template id="custom-dropdown-template">
+      <div class="custom-dropdown">
+        <div class="selected">Select an item</div>
+        <slot name="items"></slot>
+      </div>
+    </template>
+    <custom-dropdown>
+      <div slot="items">
+        <custom-dropdown-item value="value1">Item1</custom-dropdown-item>
+        <custom-dropdown-item value="value2">Item2</custom-dropdown-item>
+        <custom-dropdown-item value="value3">Item3</custom-dropdown-item>
+        <custom-dropdown-item value="value4">Item4</custom-dropdown-item>
+      </div>
+    </custom-dropdown>
+
+    <script src="./index.js"></script>
+  </body>
 </html>
