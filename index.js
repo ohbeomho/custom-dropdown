@@ -16,7 +16,7 @@ class CustomDropdownItem extends HTMLElement {
 
 class CustomDropdown extends HTMLElement {
   value;
-  open;
+  open = false;
   itemList;
 
   constructor() {
@@ -24,18 +24,36 @@ class CustomDropdown extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
     const template = document.getElementById("custom-dropdown-template");
     const style = document.createElement("style");
-    // TODO: Style
     style.textContent = `
 .custom-dropdown {
+  display: inline-block;
   overflow: hidden;
   user-select: none;
   position: relative;
+}
+
+::slotted(div),
+.selected {
+  border: 2px solid lightgray;
 }
 
 ::slotted(div) {
   display: flex;
   flex-direction: column;
   position: absolute;
+  border-top: none;
+}
+
+.arrow {
+  display: inline-block;
+  font-weight: bold;
+  rotate: 90deg;
+}
+
+.selected {
+  position: relative;
+  padding: 0.5rem;
+  z-index: 1;
 }
 `;
     shadow.appendChild(style);
@@ -44,7 +62,8 @@ class CustomDropdown extends HTMLElement {
     const selectItem = (item) => {
       if (!(item instanceof CustomDropdownItem)) return;
 
-      shadow.querySelector(".selected").textContent = item.name;
+      shadow.querySelector(".selected > span:not(.arrow)").textContent =
+        item.name;
       this.value = item.value;
     };
 
@@ -61,11 +80,10 @@ class CustomDropdown extends HTMLElement {
   }
 
   connectedCallback() {
-    this.open = this.hasAttribute("open");
     this.addEventListener("click", () => {
-      this.open ? this.removeAttribute("open") : this.setAttribute("open", "");
-      this.itemList.style.position = this.open ? "absolute" : "static";
       this.open = !this.open;
+      this.open ? this.setAttribute("open", "") : this.removeAttribute("open");
+      this.itemList.style.position = this.open ? "static" : "absolute";
     });
   }
 }

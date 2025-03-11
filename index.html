@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom dropdown</title>
+    <style>
+      custom-dropdown-item {
+        padding: 0.2rem 0.5rem;
+      }
+
+      custom-dropdown-item:not(:last-child) {
+        border-bottom: 2px solid lightgray;
+      }
+    </style>
   </head>
   <body>
     <template id="custom-dropdown-template">
       <div class="custom-dropdown">
-        <div class="selected">Select an item</div>
+        <div class="selected">
+          <span>Select an item</span>
+          <span class="arrow">&gt;</span>
+        </div>
         <slot name="items"></slot>
       </div>
     </template>
